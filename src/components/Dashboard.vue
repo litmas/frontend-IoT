@@ -128,11 +128,10 @@ export default {
         chartData.value = data;
         stats.value = statsData;
         
-        // Always try to fetch latest data when 1-hour range is selected
         const endDate = new Date(endTime.value);
-        const hoursDiff = (new Date(endTime.value) - new Date(startTime.value)) / (1000 * 60 * 60);
+        const hoursDiff = (new Date() - endDate) / (1000 * 60 * 60);
         
-        if (hoursDiff <= 1) {
+        if (hoursDiff < 2) {
           const latestRes = await fetch('https://cscloud7-130.lnu.se/backend/api/data/latest');
           if (latestRes.ok) {
             latestData.value = await latestRes.json();
@@ -200,7 +199,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .dashboard {
